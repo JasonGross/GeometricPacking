@@ -64,7 +64,7 @@ public class Grid implements Iterable<Rectangle.Double> {
         return boundingBox;
     }
 
-    public void setBoundingBox(final Rectangle2D.Double newBoundingBox) {
+    public void setBoundingBox(final Rectangle newBoundingBox) {
         LOG.log(Level.FINEST, "Old Bounding Box: {0}", boundingBox);
         boundingBox = newBoundingBox;
         LOG.log(Level.FINER, "setBoundingBox({0})", newBoundingBox);
