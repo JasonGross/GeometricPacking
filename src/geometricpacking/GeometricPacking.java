@@ -16,7 +16,7 @@ public class GeometricPacking {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        geometricpacking.ui.Main.main(args);
     }
 
 }
