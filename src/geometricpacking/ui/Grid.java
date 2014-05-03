@@ -17,6 +17,7 @@ public class Grid extends JPanel {
     private static final Logger LOG = Logger.getLogger(Grid.class.getName());
     private static final long serialVersionUID = 1L;
     public final geometricpacking.Grid grid = new geometricpacking.Grid();
+    public final CircleList circles = new CircleList(this);
     //private PropertyChangeSupport props = new PropertyChangeSupport(this);
 
     public void resetOffset() {
@@ -24,10 +25,21 @@ public class Grid extends JPanel {
         repaint();
     }
 
+    public void setDiskRadius(final int newRadius) {
+        int oldRadius = circles.getRadius();
+        circles.setRadius(newRadius);
+        super.firePropertyChange("diskRadius", oldRadius, circles.getRadius());
+        repaint();
+    }
+
+    public int getDiskRadius() {
+        return circles.getRadius();
+    }
+
     public void setGridWidth(final int newWidth) {
         double oldWidth = grid.getWidth();
-        super.firePropertyChange("gridWidth", oldWidth, newWidth);
         grid.setWidth(newWidth);
+        super.firePropertyChange("gridWidth", oldWidth, grid.getWidth());
         repaint();
     }
 
@@ -38,6 +50,7 @@ public class Grid extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        circles.paintComponent(g);
         grid.setBoundingBox(this.getBounds());
         for (Rectangle2D rect : grid) {
             g.setColor(Color.black);

@@ -40,11 +40,16 @@ public class Main extends javax.swing.JFrame {
         jDiskRadius = new javax.swing.JSlider();
         jGo = new javax.swing.JButton();
         jReset = new javax.swing.JButton();
-        jClear = new javax.swing.JToggleButton();
+        jClear = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jGrid.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jGrid.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jGridMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jGridLayout = new javax.swing.GroupLayout(jGrid);
         jGrid.setLayout(jGridLayout);
@@ -87,6 +92,9 @@ public class Main extends javax.swing.JFrame {
         jLabel2.setLabelFor(jDiskRadius);
         jLabel2.setText("Radius:");
 
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jGrid, org.jdesktop.beansbinding.ELProperty.create("${diskRadius}"), jDiskRadius, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        bindingGroup.addBinding(binding);
+
         jGo.setText("Go!");
 
         jReset.setText("Reset Grid");
@@ -97,6 +105,11 @@ public class Main extends javax.swing.JFrame {
         });
 
         jClear.setText("Clear");
+        jClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jClearActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -127,7 +140,7 @@ public class Main extends javax.swing.JFrame {
                         .addComponent(jGo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jReset)))
-                .addGap(0, 97, Short.MAX_VALUE))
+                .addGap(0, 81, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -159,7 +172,21 @@ public class Main extends javax.swing.JFrame {
 
     private void jResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jResetActionPerformed
         jGrid.resetOffset();
+        jGrid.circles.resetState();
     }//GEN-LAST:event_jResetActionPerformed
+
+    private void jGridMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jGridMouseClicked
+        if (jAddDisk.isSelected()) {
+            jGrid.circles.addCircle(evt.getX(), evt.getY());
+        } else if (jErase.isSelected()) {
+            jGrid.circles.removeCircleContainingPoint(evt.getX(), evt.getY());
+        }
+
+    }//GEN-LAST:event_jGridMouseClicked
+
+    private void jClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jClearActionPerformed
+        jGrid.circles.clear();
+    }//GEN-LAST:event_jClearActionPerformed
 
     /**
      * @param args the command line arguments
@@ -199,7 +226,7 @@ public class Main extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup clickActions;
     private javax.swing.JRadioButton jAddDisk;
-    private javax.swing.JToggleButton jClear;
+    private javax.swing.JButton jClear;
     private javax.swing.JSlider jDiskRadius;
     private javax.swing.JRadioButton jErase;
     private javax.swing.JButton jGo;
