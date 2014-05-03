@@ -22,9 +22,9 @@ public class Grid implements Iterable<Rectangle.Double> {
 
     private static final Logger LOG = Logger.getLogger(geometricpacking.Grid.class.getName());
     private final Random rand;
-    private double width = 0;
-    private double offset = 0;
-    private Rectangle.Double boundingBox = new Rectangle.Double();
+    private int width = 30;
+    private Point2D offset = new Point2D.Double();
+    private Rectangle2D boundingBox = new Rectangle.Double();
 
     public Grid() {
         rand = new Random();
@@ -37,16 +37,16 @@ public class Grid implements Iterable<Rectangle.Double> {
     }
 
     public void resetOffset() {
-        resetOffset(rand.nextFloat() * width);
+        resetOffset(new Point2D.Double(rand.nextInt(width), rand.nextInt(width)));
     }
 
-    public void resetOffset(final double newOffset) {
+    public void resetOffset(final Point2D newOffset) {
         LOG.log(Level.FINEST, "Old Offset: {0}", offset);
-        offset = newOffset;
+        offset = new Point2D.Double(newOffset.getX(), newOffset.getY());
         LOG.log(Level.FINE, "resetOffset({0})", newOffset);
     }
 
-    public void setWidth(final double newWidth) {
+    public void setWidth(final int newWidth) {
         LOG.log(Level.FINEST, "Old Width: {0}", width);
         width = newWidth;
         LOG.log(Level.FINER, "setWidth({0})", newWidth);
@@ -56,17 +56,18 @@ public class Grid implements Iterable<Rectangle.Double> {
         return width;
     }
 
-    public double getOffset() {
+    public Point2D getOffset() {
         return offset;
     }
 
-    public Rectangle2D.Double getBoundingBox() {
+    public Rectangle2D getBoundingBox() {
         return boundingBox;
     }
 
     public void setBoundingBox(final Rectangle newBoundingBox) {
         LOG.log(Level.FINEST, "Old Bounding Box: {0}", boundingBox);
-        boundingBox = newBoundingBox;
+        boundingBox = new Rectangle2D.Double(newBoundingBox.getX(), newBoundingBox.getY(),
+                newBoundingBox.getWidth(), newBoundingBox.getHeight());
         LOG.log(Level.FINER, "setBoundingBox({0})", newBoundingBox);
     }
 
@@ -81,15 +82,21 @@ public class Grid implements Iterable<Rectangle.Double> {
 
             @Override
             public boolean hasNext() {
-                return boundingBox.contains(curCorner);
+                return boundingBox.contains(curCorner)
+                        || boundingBox.contains(curCorner.getX() - offset.getX(), curCorner.getY())
+                        || boundingBox.contains(curCorner.getX(), curCorner.getY() - offset.getY())
+                        || boundingBox.contains(curCorner.getX() - offset.getX(), curCorner.getY() - offset.getY());
             }
 
             @Override
             public Rectangle2D.Double next() {
-                final Rectangle2D.Double ret = new Rectangle2D.Double(curCorner.x, curCorner.y, width, width);
+                final Rectangle2D.Double ret = new Rectangle2D.Double(curCorner.x - offset.getX(),
+                        curCorner.y - offset.getY(),
+                        width,
+                        width);
                 LOG.log(Level.FINER, "Grid.next() -> {0}", ret);
                 curCorner = new Point2D.Double(curCorner.x + width, curCorner.y);
-                if (!boundingBox.contains(curCorner)) { // Assume we went off the side
+                if (!hasNext()) { // Assume we went off the side
                     curCorner = new Point2D.Double(boundingBox.getMinX(), curCorner.y + width);
                 }
                 return ret;

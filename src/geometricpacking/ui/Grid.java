@@ -17,16 +17,32 @@ public class Grid extends JPanel {
     private static final Logger LOG = Logger.getLogger(Grid.class.getName());
     private static final long serialVersionUID = 1L;
     public final geometricpacking.Grid grid = new geometricpacking.Grid();
+    //private PropertyChangeSupport props = new PropertyChangeSupport(this);
+
+    public void resetOffset() {
+        grid.resetOffset();
+        repaint();
+    }
+
+    public void setGridWidth(final int newWidth) {
+        double oldWidth = grid.getWidth();
+        super.firePropertyChange("gridWidth", oldWidth, newWidth);
+        grid.setWidth(newWidth);
+        repaint();
+    }
+
+    public int getGridWidth() {
+        return (int) grid.getWidth();
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         grid.setBoundingBox(this.getBounds());
-        this.getBounds()
-    for (Rectangle2D rect : grid) {
+        for (Rectangle2D rect : grid) {
             g.setColor(Color.black);
-            g.drawRect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-            g.drawLine(line.x1, line.y1, line.x2, line.y2);
+            g.drawRect((int) rect.getX(), (int) rect.getY(), (int) rect.getWidth(), (int) rect.getHeight());
         }
     }
+
 }
