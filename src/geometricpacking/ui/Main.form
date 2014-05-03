@@ -121,6 +121,7 @@
                 <LineBorder/>
               </Border>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Click to add a disk here."/>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jGridMouseClicked"/>
@@ -147,12 +148,14 @@
           <ComponentRef name="jGridSize"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Grid Size:"/>
+        <Property name="toolTipText" type="java.lang.String" value="The spacking of grid lines"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JSlider" name="jGridSize">
       <Properties>
         <Property name="maximum" type="int" value="300"/>
         <Property name="minimum" type="int" value="10"/>
+        <Property name="toolTipText" type="java.lang.String" value="The spacking of grid lines"/>
       </Properties>
       <BindingProperties>
         <BindingProperty name="value" source="jGrid" sourcePath="${gridWidth}" target="jGridSize" targetPath="value" updateStrategy="0" immediately="false">
@@ -166,6 +169,7 @@
           <ComponentRef name="clickActions"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Erase Disks"/>
+        <Property name="toolTipText" type="java.lang.String" value="If this is selected, clicking removes a disk which contians the clicked point."/>
       </Properties>
     </Component>
     <Component class="javax.swing.JRadioButton" name="jAddDisk">
@@ -175,7 +179,12 @@
         </Property>
         <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" value="Add Disks"/>
+        <Property name="toolTipText" type="java.lang.String" value="If this is selected, clicking adds disks."/>
       </Properties>
+      <Events>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jAddDiskStateChanged"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jAddDiskActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
@@ -183,9 +192,13 @@
           <ComponentRef name="jDiskRadius"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Radius:"/>
+        <Property name="toolTipText" type="java.lang.String" value="The radus of all disks"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JSlider" name="jDiskRadius">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="The radus of all disks"/>
+      </Properties>
       <BindingProperties>
         <BindingProperty name="value" source="jGrid" sourcePath="${diskRadius}" target="jDiskRadius" targetPath="value" updateStrategy="0" immediately="false">
           <BindingParameter name="IGNORE_ADJUSTING" value="N"/>
@@ -195,6 +208,7 @@
     <Component class="javax.swing.JButton" name="jGo">
       <Properties>
         <Property name="text" type="java.lang.String" value="Go!"/>
+        <Property name="toolTipText" type="java.lang.String" value="Run the algorithm.  First all disks are grayed out.  Then, one box at a time, the box of disks is darkened, and then the maximal set is darkened again while the rest of the disks are grayed."/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jGoActionPerformed"/>
@@ -203,6 +217,7 @@
     <Component class="javax.swing.JButton" name="jReset">
       <Properties>
         <Property name="text" type="java.lang.String" value="Reset Grid"/>
+        <Property name="toolTipText" type="java.lang.String" value="Re-randomize the grid offset"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jResetActionPerformed"/>
@@ -211,6 +226,7 @@
     <Component class="javax.swing.JButton" name="jClear">
       <Properties>
         <Property name="text" type="java.lang.String" value="Clear"/>
+        <Property name="toolTipText" type="java.lang.String" value="Remove all disks"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jClearActionPerformed"/>
@@ -222,11 +238,13 @@
           <ComponentRef name="jDelay"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Delay (ms):"/>
+        <Property name="toolTipText" type="java.lang.String" value="Duration between successive steps of the algorithm."/>
       </Properties>
     </Component>
     <Component class="javax.swing.JSlider" name="jDelay">
       <Properties>
         <Property name="maximum" type="int" value="1000"/>
+        <Property name="toolTipText" type="java.lang.String" value="Duration between successive steps of the algorithm."/>
         <Property name="value" type="int" value="500"/>
       </Properties>
       <BindingProperties>

@@ -6,9 +6,6 @@
 
 package geometricpacking;
 
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
-import static java.util.logging.Level.FINE;
 import java.util.logging.Logger;
 
 /**
@@ -22,13 +19,11 @@ public class GeometricPacking {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Logger root = Logger.getLogger("");
-         root.setLevel(FINE);
-        for (Handler handler : root.getHandlers()) {
-            if (handler instanceof ConsoleHandler) {
-                // java.util.logging.ConsoleHandler.level = ALL
-                handler.setLevel(FINE);
-            }
+        /*Logger root = Logger.getLogger("");
+         root.setLevel(java.util.logging.Level.FINE);
+         for (java.util.logging.Handler handler : root.getHandlers()) {
+         if (handler instanceof java.util.logging.ConsoleHandler) {                // java.util.logging.ConsoleHandler.level = ALL
+                handler.setLevel(java.util.logging.Level.FINE);            }
         }
         java.util.logging.Level[] levels = {
             java.util.logging.Level.OFF, java.util.logging.Level.SEVERE, java.util.logging.Level.WARNING, java.util.logging.Level.INFO,
@@ -39,7 +34,7 @@ public class GeometricPacking {
         for (java.util.logging.Level level : levels) {
             LOG.setLevel(level);
             LOG.log(level, "Hello Logger");
-        }
+        }*/
         geometricpacking.ui.Main.main(args);
     }
 

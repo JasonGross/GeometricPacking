@@ -47,6 +47,7 @@ public class Main extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jGrid.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jGrid.setToolTipText("Click to add a disk here.");
         jGrid.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jGridMouseClicked(evt);
@@ -77,27 +78,45 @@ public class Main extends javax.swing.JFrame {
 
         jLabel1.setLabelFor(jGridSize);
         jLabel1.setText("Grid Size:");
+        jLabel1.setToolTipText("The spacking of grid lines");
 
         jGridSize.setMaximum(300);
         jGridSize.setMinimum(10);
+        jGridSize.setToolTipText("The spacking of grid lines");
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jGrid, org.jdesktop.beansbinding.ELProperty.create("${gridWidth}"), jGridSize, org.jdesktop.beansbinding.BeanProperty.create("value"));
         bindingGroup.addBinding(binding);
 
         clickActions.add(jErase);
         jErase.setText("Erase Disks");
+        jErase.setToolTipText("If this is selected, clicking removes a disk which contians the clicked point.");
 
         clickActions.add(jAddDisk);
         jAddDisk.setSelected(true);
         jAddDisk.setText("Add Disks");
+        jAddDisk.setToolTipText("If this is selected, clicking adds disks.");
+        jAddDisk.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jAddDiskStateChanged(evt);
+            }
+        });
+        jAddDisk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jAddDiskActionPerformed(evt);
+            }
+        });
 
         jLabel2.setLabelFor(jDiskRadius);
         jLabel2.setText("Radius:");
+        jLabel2.setToolTipText("The radus of all disks");
+
+        jDiskRadius.setToolTipText("The radus of all disks");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jGrid, org.jdesktop.beansbinding.ELProperty.create("${diskRadius}"), jDiskRadius, org.jdesktop.beansbinding.BeanProperty.create("value"));
         bindingGroup.addBinding(binding);
 
         jGo.setText("Go!");
+        jGo.setToolTipText("Run the algorithm.  First all disks are grayed out.  Then, one box at a time, the box of disks is darkened, and then the maximal set is darkened again while the rest of the disks are grayed.");
         jGo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jGoActionPerformed(evt);
@@ -105,6 +124,7 @@ public class Main extends javax.swing.JFrame {
         });
 
         jReset.setText("Reset Grid");
+        jReset.setToolTipText("Re-randomize the grid offset");
         jReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jResetActionPerformed(evt);
@@ -112,6 +132,7 @@ public class Main extends javax.swing.JFrame {
         });
 
         jClear.setText("Clear");
+        jClear.setToolTipText("Remove all disks");
         jClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jClearActionPerformed(evt);
@@ -120,8 +141,10 @@ public class Main extends javax.swing.JFrame {
 
         jLabel3.setLabelFor(jDelay);
         jLabel3.setText("Delay (ms):");
+        jLabel3.setToolTipText("Duration between successive steps of the algorithm.");
 
         jDelay.setMaximum(1000);
+        jDelay.setToolTipText("Duration between successive steps of the algorithm.");
         jDelay.setValue(500);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jGrid, org.jdesktop.beansbinding.ELProperty.create("${delay}"), jDelay, org.jdesktop.beansbinding.BeanProperty.create("value"));
@@ -213,6 +236,18 @@ public class Main extends javax.swing.JFrame {
     private void jGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jGoActionPerformed
         jGrid.runner.go();
     }//GEN-LAST:event_jGoActionPerformed
+
+    private void jAddDiskStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jAddDiskStateChanged
+        if (jAddDisk.isSelected()) {
+            jGrid.setToolTipText("Click to add a disk here.");
+        } else if (jErase.isSelected()) {
+            jGrid.setToolTipText("Click to remove the disk whose center is closest to this point.");
+        }
+    }//GEN-LAST:event_jAddDiskStateChanged
+
+    private void jAddDiskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddDiskActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jAddDiskActionPerformed
 
     /**
      * @param args the command line arguments
