@@ -16,9 +16,16 @@ public class Grid extends JPanel {
 
     private static final Logger LOG = Logger.getLogger(Grid.class.getName());
     private static final long serialVersionUID = 1L;
-    public final geometricpacking.Grid grid = new geometricpacking.Grid();
-    public final CircleList circles = new CircleList(this);
+    protected final geometricpacking.Grid grid;
+    protected final CircleList circles;
+    protected final PackingRunner runner;
     //private PropertyChangeSupport props = new PropertyChangeSupport(this);
+
+    public Grid() {
+        grid = new geometricpacking.Grid();
+        circles = new CircleList(this);
+        runner = new PackingRunner(this, grid, circles.circles);
+    }
 
     public void resetOffset() {
         grid.resetOffset();
@@ -29,6 +36,8 @@ public class Grid extends JPanel {
         int oldRadius = circles.getRadius();
         circles.setRadius(newRadius);
         super.firePropertyChange("diskRadius", oldRadius, circles.getRadius());
+        runner.reset();
+        circles.resetState();
         repaint();
     }
 
@@ -36,10 +45,22 @@ public class Grid extends JPanel {
         return circles.getRadius();
     }
 
+    public void setDelay(final int newDelay) {
+        int oldDelay = runner.getDelay();
+        runner.setDelay(newDelay);
+        super.firePropertyChange("delay", oldDelay, runner.getDelay());
+    }
+
+    public int getDelay() {
+        return runner.getDelay();
+    }
+
     public void setGridWidth(final int newWidth) {
         double oldWidth = grid.getWidth();
         grid.setWidth(newWidth);
         super.firePropertyChange("gridWidth", oldWidth, grid.getWidth());
+        runner.reset();
+        circles.resetState();
         repaint();
     }
 

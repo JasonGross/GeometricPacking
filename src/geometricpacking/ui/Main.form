@@ -196,6 +196,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Go!"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jGoActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jReset">
       <Properties>
@@ -224,8 +227,12 @@
     <Component class="javax.swing.JSlider" name="jDelay">
       <Properties>
         <Property name="maximum" type="int" value="1000"/>
-        <Property name="value" type="int" value="500"/>
       </Properties>
+      <BindingProperties>
+        <BindingProperty name="value" source="jGrid" sourcePath="${delay}" target="jDelay" targetPath="value" updateStrategy="0" immediately="false">
+          <BindingParameter name="IGNORE_ADJUSTING" value="N"/>
+        </BindingProperty>
+      </BindingProperties>
     </Component>
   </SubComponents>
 </Form>

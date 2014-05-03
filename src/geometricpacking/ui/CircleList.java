@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 public class CircleList {
     private static final Logger LOG = Logger.getLogger(CircleList.class.getName());
-    private final geometricpacking.CircleList circles;
+    protected final geometricpacking.CircleList circles;
     private final PropertyChangeSupport props = new PropertyChangeSupport(this);
     private final java.awt.Component repainter;
 
@@ -89,16 +89,16 @@ public class CircleList {
         for (Circle c : circles) {
             switch (c.state) {
                 case DEFAULT:
-                    g.setColor(new Color(0, 0, 1, 0.2f));
+                    g.setColor(new Color(0, 0, 1, 0.75f));
                     break;
                 case ACTIVE:
-                    g.setColor(new Color(0, 0, 1, 0.0f));
+                    g.setColor(new Color(0, 0, 1, 1.0f));
                     break;
                 case CONSIDERING:
-                    g.setColor(new Color(0, 0, 1, 0.1f));
+                    g.setColor(new Color(0, 0, 1, 0.5f));
                     break;
                 case INACTIVE:
-                    g.setColor(new Color(0, 0, 1, 0.5f));
+                    g.setColor(new Color(0, 0, 1, 0.2f));
                     break;
             }
             g.fillOval(c.x - c.radius, c.y - c.radius, 2 * c.radius, 2 * c.radius);

@@ -98,6 +98,11 @@ public class Main extends javax.swing.JFrame {
         bindingGroup.addBinding(binding);
 
         jGo.setText("Go!");
+        jGo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jGoActionPerformed(evt);
+            }
+        });
 
         jReset.setText("Reset Grid");
         jReset.addActionListener(new java.awt.event.ActionListener() {
@@ -117,7 +122,9 @@ public class Main extends javax.swing.JFrame {
         jLabel3.setText("Delay (ms):");
 
         jDelay.setMaximum(1000);
-        jDelay.setValue(500);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jGrid, org.jdesktop.beansbinding.ELProperty.create("${delay}"), jDelay, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -201,6 +208,10 @@ public class Main extends javax.swing.JFrame {
     private void jClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jClearActionPerformed
         jGrid.circles.clear();
     }//GEN-LAST:event_jClearActionPerformed
+
+    private void jGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jGoActionPerformed
+        jGrid.runner.go();
+    }//GEN-LAST:event_jGoActionPerformed
 
     /**
      * @param args the command line arguments
