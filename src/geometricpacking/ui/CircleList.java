@@ -89,13 +89,13 @@ public class CircleList {
         for (Circle c : circles) {
             switch (c.state) {
                 case DEFAULT:
-                    g.setColor(new Color(0, 0, 1, 0.75f));
+                    g.setColor(new Color(0, 0, 1, 0.6f));
                     break;
                 case ACTIVE:
                     g.setColor(new Color(0, 0, 1, 1.0f));
                     break;
                 case CONSIDERING:
-                    g.setColor(new Color(0, 0, 1, 0.5f));
+                    g.setColor(new Color(0, 0, 1, 0.4f));
                     break;
                 case INACTIVE:
                     g.setColor(new Color(0, 0, 1, 0.2f));

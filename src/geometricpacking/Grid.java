@@ -73,6 +73,10 @@ public class Grid implements Iterable<Rectangle.Double> {
 
     @Override
     public Iterator<Rectangle2D.Double> iterator() {
+        return iterator(boundingBox);
+    }
+
+    public Iterator<Rectangle2D.Double> iterator(final Rectangle2D boundingBox) {
         class it implements Iterator<Rectangle2D.Double> {
 
             private Point2D.Double curCorner = new Point2D.Double(boundingBox.getMinX(), boundingBox.getMinY());

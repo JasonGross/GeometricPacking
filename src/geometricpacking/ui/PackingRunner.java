@@ -20,22 +20,36 @@ public class PackingRunner {
     private final java.awt.Component repainter;
     private final geometricpacking.Grid grid;
     private final geometricpacking.CircleList circles;
+    private final geometricpacking.Packing runner;
 
     public PackingRunner(java.awt.Component repainter, geometricpacking.Grid grid, geometricpacking.CircleList circles) {
         this.circles = circles;
         this.repainter = repainter;
         this.grid = grid;
+        this.runner = new geometricpacking.Packing(grid);
     }
 
     public void go() {
         for (Circle c : circles) {
-            c.state = Circle.State.INACTIVE;
+            c.state = Circle.State.DEFAULT;
         }
+        repainter.repaint();
+        runner.start(circles);
+        repainter.repaint();
+        //Thread.sleep(delay);
+        while (runner.hasNext()) {
+            runner.getNext(circles);
+            repainter.repaint();
+            runner.considerNext(circles);
+            repainter.repaint();
+        }
+        runner.finish(circles);
         repainter.repaint();
     }
 
-    public void reset() {
 
+    public void reset() {
+        runner.stop();
     }
 
     public int getDelay() {
