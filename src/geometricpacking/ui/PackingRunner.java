@@ -9,18 +9,23 @@ package geometricpacking.ui;
 import geometricpacking.Circle;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Jason
  */
 public class PackingRunner {
-    private int delay = 0;
+
+    private int delay = 500;
     private final PropertyChangeSupport props = new PropertyChangeSupport(this);
     private final java.awt.Component repainter;
     private final geometricpacking.Grid grid;
     private final geometricpacking.CircleList circles;
     private final geometricpacking.Packing runner;
+    private Thread algorithmThread = null;
 
     public PackingRunner(java.awt.Component repainter, geometricpacking.Grid grid, geometricpacking.CircleList circles) {
         this.circles = circles;
@@ -30,26 +35,55 @@ public class PackingRunner {
     }
 
     public void go() {
-        for (Circle c : circles) {
-            c.state = Circle.State.DEFAULT;
+        class runAlgorithm extends Thread {
+
+            @Override
+            public void run() {
+                try {
+                    runner.start(circles);
+                    repainter.repaint();
+                    sleep(delay);
+                    while (runner.hasNext()) {
+                        ArrayList<Circle> considering = runner.getNext(circles);
+                        repainter.repaint();
+                        if (!considering.isEmpty()) {
+                            sleep(delay);
+                            runner.considerNext(circles);
+                            repainter.repaint();
+                            sleep(delay);
+                        }
+                    }
+                    runner.finish(circles);
+                    repainter.repaint();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(PackingRunner.class.getName()).log(Level.SEVERE, null, ex);
+                    for (Circle c : circles) {
+                        c.state = Circle.State.DEFAULT;
+                        repainter.repaint();
+                    }
+                }
+            }
         }
-        repainter.repaint();
-        runner.start(circles);
-        repainter.repaint();
-        //Thread.sleep(delay);
-        while (runner.hasNext()) {
-            runner.getNext(circles);
-            repainter.repaint();
-            runner.considerNext(circles);
-            repainter.repaint();
+        if (algorithmThread != null) {
+            if (algorithmThread.isAlive()) {
+                algorithmThread.interrupt();
+                try {
+                    algorithmThread.join(delay);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(PackingRunner.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            algorithmThread = null;
         }
-        runner.finish(circles);
-        repainter.repaint();
+        algorithmThread = new runAlgorithm();
+        algorithmThread.start();
     }
 
 
     public void reset() {
-        runner.stop();
+        if (algorithmThread != null && algorithmThread.isAlive()) {
+            algorithmThread.interrupt();
+        }
     }
 
     public int getDelay() {

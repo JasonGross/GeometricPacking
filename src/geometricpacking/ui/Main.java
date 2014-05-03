@@ -122,6 +122,7 @@ public class Main extends javax.swing.JFrame {
         jLabel3.setText("Delay (ms):");
 
         jDelay.setMaximum(1000);
+        jDelay.setValue(500);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jGrid, org.jdesktop.beansbinding.ELProperty.create("${delay}"), jDelay, org.jdesktop.beansbinding.BeanProperty.create("value"));
         bindingGroup.addBinding(binding);
