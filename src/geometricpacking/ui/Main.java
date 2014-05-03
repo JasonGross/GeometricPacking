@@ -78,11 +78,11 @@ public class Main extends javax.swing.JFrame {
 
         jLabel1.setLabelFor(jGridSize);
         jLabel1.setText("Grid Size:");
-        jLabel1.setToolTipText("The spacking of grid lines");
+        jLabel1.setToolTipText("The spacing of grid lines");
 
         jGridSize.setMaximum(300);
         jGridSize.setMinimum(10);
-        jGridSize.setToolTipText("The spacking of grid lines");
+        jGridSize.setToolTipText("The spacing of grid lines");
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jGrid, org.jdesktop.beansbinding.ELProperty.create("${gridWidth}"), jGridSize, org.jdesktop.beansbinding.BeanProperty.create("value"));
         bindingGroup.addBinding(binding);

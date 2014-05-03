@@ -148,14 +148,14 @@
           <ComponentRef name="jGridSize"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Grid Size:"/>
-        <Property name="toolTipText" type="java.lang.String" value="The spacking of grid lines"/>
+        <Property name="toolTipText" type="java.lang.String" value="The spacing of grid lines"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JSlider" name="jGridSize">
       <Properties>
         <Property name="maximum" type="int" value="300"/>
         <Property name="minimum" type="int" value="10"/>
-        <Property name="toolTipText" type="java.lang.String" value="The spacking of grid lines"/>
+        <Property name="toolTipText" type="java.lang.String" value="The spacing of grid lines"/>
       </Properties>
       <BindingProperties>
         <BindingProperty name="value" source="jGrid" sourcePath="${gridWidth}" target="jGridSize" targetPath="value" updateStrategy="0" immediately="false">
